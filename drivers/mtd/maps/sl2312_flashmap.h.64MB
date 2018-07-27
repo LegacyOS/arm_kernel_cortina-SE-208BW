@@ -1,0 +1,22 @@
+/*
+ * Please note that the name are used in mkflash script. Therefore
+ * don't change them.  If you want to add different partitions, you
+ * will need to modify mkflash script as well so that the end image
+ * is what you include here!
+ *
+ * Also, the 7th item is always the size, so please don't add extra
+ * spaces in the name or other items.
+ * 
+ *  - Alan
+ */
+
+static struct mtd_partition sl2312_partitions[] = {
+	{ name: "RedBoot",     	 offset: 0x00000000, size: 0x00100000, }, /* MemAddr: 0x00000000 Entry: 0x00000000 */
+	{ name: "Kernel",      	 offset: 0x00100000, size: 0x00580000, }, /* MemAddr: 0x01600000 Entry: 0x01600000 */
+	{ name: "Ramdisk",     	 offset: 0x00680000, size: 0x01000000, }, /* MemAddr: 0x00800000 Entry: 0x00800000 */
+	{ name: "Application", 	 offset: 0x01680000, size: 0x01000000, }, /* MemAddr: 0x00000000 Entry: 0x00000000 */
+	{ name: "VCTL", 	 offset: 0x02680000, size: 0x00100000, }, /* MemAddr: 0x00000000 Entry: 0x00000000 */
+	{ name: "CurConf",  	 offset: 0x02780000, size: 0x00200000, }, /* MemAddr: 0x00000000 Entry: 0x00000000 */
+	{ name: "FIS directory", offset: 0x02980000, size: 0x00180000, }, /* MemAddr: 0x00000000 Entry: 0x00000000 */
+	{ name: "Reserved",      offset: 0x02B00000, size: 0x01500000, }  /* MemAddr: 0x00000000 Entry: 0x00000000 */
+};

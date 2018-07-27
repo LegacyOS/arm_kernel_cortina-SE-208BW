@@ -1,0 +1,369 @@
+102c102
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+109,112c109,110
+< extern struct otg_transceiver *FOTG2XX_get_otg_transceiver(void);
+< 
+< 
+< #if defined  (CONFIG_USB_SL2312) || defined (CONFIG_USB_SL2312_MODULE)
+---
+> extern struct otg_transceiver *FOTG2XX_get_otg_transceiver_1(void);
+> #if defined  (CONFIG_USB_SL2312_1) || defined (CONFIG_USB_SL2312_1_MODULE)
+117,118c115,117
+< #define CPE_HOST20_BASE  SL2312_USB0_BASE
+< //int USB_driver_Flag;
+---
+> #define CPE_HOST20_BASE  SL2312_USB1_BASE
+> #define IRQ_USB_HOST20   IRQ_USB1
+> 
+151d149
+< 
+157a156,163
+> 
+> //static const char FOTG200_BusName[]={'A','H','B','-','B','U','S',0x00};
+> //static const char FOTG200_product_desc[]={'F','-','E','H','C','I',0x00};
+> //static const char FUSBH200_BusName[]={'A','H','B','-','B','U','S',0x00};
+> //static const char FUSBH200_product_desc[]={'F','-','E','H','C','I',0x00};
+> //struct usb_hcd		*ghcd_FOTG2XX_1;//Faraday-EHCI(FOTG2XX/FUSBH200)
+> //struct usb_hcd		*ghcd_FUSBH200_1;//Faraday-EHCI(FOTG2XX/FUSBH200)
+> 
+159a166,167
+> 
+> 
+166c174
+< int FEHCI_ReadSpeed (void)//0=>None 1=>Full Speed 2=>High Speed
+---
+> int FEHCI_ReadSpeed_1 (void)//0=>None 1=>Full Speed 2=>High Speed
+188c196
+< static int FOTG2XX_Force_Speed( //0=>None 1=>Full Speed 2=>High Speed
+---
+> static int FOTG2XX_Force_Speed_1( //0=>None 1=>Full Speed 2=>High Speed
+226c234
+< static int FEHCI_ForceSpeed(int iSpeed)  
+---
+> static int FEHCI_ForceSpeed_1(int iSpeed)  
+228c236
+<   FOTG2XX_Force_Speed(iSpeed); 
+---
+>   FOTG2XX_Force_Speed_1(iSpeed); 
+357c365
+< #include "ehci-hub-FOTG2XX.c"
+---
+> #include "ehci-hub-FOTG2XX-1.c"
+369c377
+< static void ehci_watchdog (unsigned long param)
+---
+> static void ehci_watchdog_1 (unsigned long param)
+409c417
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)	
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)	
+425c433
+< 		(void) ehci_hub_control(&ehci->hcd,
+---
+> 		(void) ehci_hub_control_1(&ehci->hcd,
+466c474
+< static void ehci_stop (struct usb_hcd *hcd)
+---
+> static void ehci_stop_1 (struct usb_hcd *hcd)
+487c495
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+509c517
+< 	printk("ehci_stop completed %x \n", readl (&ehci->regs->status));
+---
+> 	printk("ehci_stop_1 completed %x \n", readl (&ehci->regs->status));
+526c534
+< 	ehci->watchdog.function = ehci_watchdog;
+---
+> 	ehci->watchdog.function = ehci_watchdog_1;
+632c640
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+657c665
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+661c669
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+685c693
+< 		ehci->transceiver = FOTG2XX_get_otg_transceiver();
+---
+> 		ehci->transceiver = FOTG2XX_get_otg_transceiver_1();
+712c720
+< static irqreturn_t ehci_irq (struct usb_hcd *hcd, struct pt_regs *regs)
+---
+> static irqreturn_t ehci_irq_1 (struct usb_hcd *hcd, struct pt_regs *regs)
+721c729
+< //         printk("ehci_irq ehci->regs %x status %x\n",ehci->regs,status);
+---
+> //         printk("ehci_irq_1 ehci->regs %x status %x\n",ehci->regs,status);
+773c781
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+803c811
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+807c815
+< 			 * uses ehci_stop to clean up the rest
+---
+> 			 * uses ehci_stop_1 to clean up the rest
+833c841
+< static int ehci_urb_enqueue (
+---
+> static int ehci_urb_enqueue_1 (
+850c858
+< 		   	printk("***ehci_urb_enqueue %x \n",qh_urb_transaction (ehci, urb, &qtd_list, mem_flags));
+---
+> 		   	printk("***ehci_urb_enqueue_1 %x \n",qh_urb_transaction (ehci, urb, &qtd_list, mem_flags));
+853c861
+< //		printk("***ehci_urb_enqueue 1 %x \n",submit_async (ehci, ep, urb, &qtd_list, mem_flags));    //2.6.15 cant not open !!!!
+---
+> //		printk("***ehci_urb_enqueue_1 1 %x \n",submit_async (ehci, ep, urb, &qtd_list, mem_flags));    //2.6.15 cant not open !!!!
+891,892d898
+< 		
+<         /* Follow Peter's OTG Code */
+908c914
+< static int ehci_urb_dequeue (struct usb_hcd *hcd, struct urb *urb)
+---
+> static int ehci_urb_dequeue_1 (struct usb_hcd *hcd, struct urb *urb)
+977c983
+< ehci_endpoint_disable (struct usb_hcd *hcd, struct usb_host_endpoint *ep)
+---
+> ehci_endpoint_disable_1 (struct usb_hcd *hcd, struct usb_host_endpoint *ep)
+981a988
+> 	int i=0;
+985,986c992
+<         int i=0;
+<         
+---
+> 
+1005d1010
+< //	     printk("a\n");
+1019,1021c1024
+< 		i++;
+< //		printk("i %x\n",i);
+< #if defined  (CONFIG_USB_SL2312) || defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if defined  (CONFIG_USB_SL2312_1) || defined (CONFIG_USB_SL2312_1_MODULE)
+1024c1027,1028
+<  //                  printk("i_1 %x\n",i);  	
+---
+>                    printk("i_1 %x\n",i);  	
+>                    i++;
+1030d1033
+< //	      printk("b\n");  
+1037d1039
+< //	        printk("c\n");
+1049d1050
+< //        printk("d\n");
+1054c1055
+< static int ehci_get_frame (struct usb_hcd *hcd)
+---
+> static int ehci_get_frame_1 (struct usb_hcd *hcd)
+1069c1070
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1081c1082
+< static int ehci_hc_reset (struct usb_hcd *hcd)
+---
+> static int ehci_hc_reset_1 (struct usb_hcd *hcd)
+1088c1089
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE) 
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1094c1095
+< //	printk("ehci_hc_reset \n");
+---
+> //	printk("ehci_hc_reset_1 \n");
+1099c1100
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE) 
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1156c1157
+< static int ehci_start (struct usb_hcd *hcd)
+---
+> static int ehci_start_1 (struct usb_hcd *hcd)
+1175c1176
+< 		ehci->watchdog.function = ehci_watchdog;
+---
+> 		ehci->watchdog.function = ehci_watchdog_1;
+1207c1208
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1267c1268
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1326c1327
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1330c1331
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1335c1336
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1363c1364
+< //	writel (INTR_MASK, &ehci->regs->intr_enable); /* Turn On Interrupts */
+---
+> 
+1374c1375
+< 		ehci->transceiver = FOTG2XX_get_otg_transceiver();
+---
+> 		ehci->transceiver = FOTG2XX_get_otg_transceiver_1();
+1397a1399
+> 
+1430c1432
+< static int ehci_disconnect_for_OTG (struct usb_hcd *hcd, u32 state)
+---
+> static int ehci_disconnect_for_OTG_1 (struct usb_hcd *hcd, u32 state)
+1436c1438
+< //    DBG_HOST_EHCI("### >>> Enter ehci-hcd.c file --> ehci_disconnect_for_OTG function \n");
+---
+> //    DBG_HOST_EHCI("### >>> Enter ehci-hcd.c file --> ehci_disconnect_for_OTG_1 function \n");
+1469c1471
+< #if !defined  (CONFIG_USB_SL2312) && !defined (CONFIG_USB_SL2312_MODULE) 
+---
+> #if !defined  (CONFIG_USB_SL2312_1) && !defined (CONFIG_USB_SL2312_1_MODULE)
+1482c1484
+< #if defined  (CONFIG_USB_SL2312) || defined (CONFIG_USB_SL2312_MODULE)
+---
+> #if defined  (CONFIG_USB_SL2312_1) || defined (CONFIG_USB_SL2312_1_MODULE)
+1493,1495c1495,1499
+< static const struct hc_driver ehci_sl2312_hc_driver = {
+< 	.description =		"ehci-hcd-FOTG2XX",
+<         .product_desc = "FOTG200 Host Controller", //2.6.15
+---
+> 
+> 
+> static const struct hc_driver ehci_sl2312_hc_driver_1 = {
+> 	.description =		"ehci-hcd-FOTG2XX-1",
+>         .product_desc = "FOTG200 Host 1 Controller", //2.6.15
+1500c1504
+< 	.irq =			ehci_irq,
+---
+> 	.irq =			ehci_irq_1,
+1506,1507c1510,1511
+< 	.reset =		ehci_hc_reset,
+< 	.start =		ehci_start,
+---
+> 	.reset =		ehci_hc_reset_1,
+> 	.start =		ehci_start_1,
+1512c1516
+< 	.stop =			ehci_stop,
+---
+> 	.stop =			ehci_stop_1,
+1522,1524c1526,1528
+< 	.urb_enqueue =		ehci_urb_enqueue,
+< 	.urb_dequeue =		ehci_urb_dequeue,
+< 	.endpoint_disable =	ehci_endpoint_disable,
+---
+> 	.urb_enqueue =		ehci_urb_enqueue_1,
+> 	.urb_dequeue =		ehci_urb_dequeue_1,
+> 	.endpoint_disable =	ehci_endpoint_disable_1,
+1529c1533
+< 	.get_frame_number =	ehci_get_frame,
+---
+> 	.get_frame_number =	ehci_get_frame_1,
+1534,1539c1538,1543
+< 	.hub_status_data =	ehci_hub_status_data,
+< 	.hub_control =		ehci_hub_control,
+< 	.bus_suspend =		ehci_bus_suspend,  //2.6.15
+< 	.bus_resume =		ehci_bus_resume,   //2.6.15
+< #if defined  (CONFIG_USB_SL2312) || defined (CONFIG_USB_SL2312_MODULE)
+<         .disconnect_for_OTG =   ehci_disconnect_for_OTG,
+---
+> 	.hub_status_data =	ehci_hub_status_data_1,
+> 	.hub_control =		ehci_hub_control_1,
+> 	.bus_suspend =		ehci_bus_suspend_1,  //2.6.15
+> 	.bus_resume =		ehci_bus_resume_1,   //2.6.15
+> #if defined  (CONFIG_USB_SL2312_1) || defined (CONFIG_USB_SL2312_1_MODULE)
+>         .disconnect_for_OTG =   ehci_disconnect_for_OTG_1,
+1544c1548
+< extern int usb_ehcd_FEHCI_probe (const struct hc_driver *driver,
+---
+> extern int usb_ehcd_FEHCI_probe_1 (const struct hc_driver *driver,
+1548c1552
+< static int ehci_hcd_sl2312_drv_probe(struct platform_device *pdev)
+---
+> static int ehci_hcd_sl2312_drv_probe_1(struct platform_device *pdev)
+1553c1557
+<   USB_driver_Flag =0;
+---
+>   USB_driver_Flag_1 =0;
+1561c1565
+< 	ret = usb_ehcd_FEHCI_probe(&ehci_sl2312_hc_driver, &hcd, pdev);
+---
+> 	ret = usb_ehcd_FEHCI_probe_1(&ehci_sl2312_hc_driver_1, &hcd, pdev);
+1569c1573
+< static int ehci_hcd_sl2312_drv_remove(struct platform_device *pdev)
+---
+> static int ehci_hcd_sl2312_drv_remove_1(struct platform_device *pdev)
+1585c1589
+< static int ehci_hcd_sl2312_drv_suspend(struct platform_device *pdev, u32 state, u32 level)
+---
+> static int ehci_hcd_sl2312_drv_suspend_1(struct platform_device *pdev, u32 state, u32 level)
+1594c1598
+< static int ehci_hcd_sl2312_drv_resume(struct platform_device *pdev, u32 state)
+---
+> static int ehci_hcd_sl2312_drv_resume_1(struct platform_device *pdev, u32 state)
+1604c1608
+< static struct platform_driver ehci_hcd_sl2312_driver = {
+---
+> static struct platform_driver ehci_hcd_sl2312_driver_1 = {
+1607,1610c1611,1614
+< 	.probe		= ehci_hcd_sl2312_drv_probe,
+< 	.remove		= ehci_hcd_sl2312_drv_remove,
+< 	.suspend	= ehci_hcd_sl2312_drv_suspend, 
+< 	.resume		= ehci_hcd_sl2312_drv_resume, 
+---
+> 	.probe		= ehci_hcd_sl2312_drv_probe_1,
+> 	.remove		= ehci_hcd_sl2312_drv_remove_1,
+> 	.suspend	= ehci_hcd_sl2312_drv_suspend_1, 
+> 	.resume		= ehci_hcd_sl2312_drv_resume_1, 
+1612c1616
+< 		.name = "ehci-hcd-FOTG2XX",
+---
+> 		.name = "ehci-hcd-FOTG2XX-1",
+1618c1622
+< static int __init sl2312_usb_init (void) 
+---
+> static int __init sl2312_usb_init_1 (void) 
+1629c1633
+< return platform_driver_register(&ehci_hcd_sl2312_driver);
+---
+> return platform_driver_register(&ehci_hcd_sl2312_driver_1);
+1634c1638
+< module_init (sl2312_usb_init);
+---
+> module_init (sl2312_usb_init_1);
+1636c1640
+< static void __exit sl2312_usb_cleanup (void) 
+---
+> static void __exit sl2312_usb_cleanup_1 (void) 
+1641,1642c1645
+< platform_driver_unregister(&ehci_hcd_sl2312_driver);
+< 
+---
+> platform_driver_unregister(&ehci_hcd_sl2312_driver_1);
+1645,1647c1648,1650
+< module_exit (sl2312_usb_cleanup);
+< //add by andy
+< EXPORT_SYMBOL(FOTG2XX_get_otg_transceiver);
+---
+> module_exit (sl2312_usb_cleanup_1);
+> 
+> EXPORT_SYMBOL(FOTG2XX_get_otg_transceiver_1);

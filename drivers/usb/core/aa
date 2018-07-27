@@ -1,0 +1,211 @@
+76c76
+< static struct task_struct *kmoused_task;
+---
+> static struct task_struct *kmoused_task=0;
+315c315
+<                           USB_driver_Flag=1;
+---
+> 	                   USB_driver_Flag=1;
+317d316
+<                           wake_up(&usb_wait_q);
+323d321
+<                            wake_up(&usb_1_wait_q);
+1221c1219,1220
+< 	   
+---
+> 	
+>            printk("vbus want to off first\n");   
+1238c1237
+<           msleep_interruptible(50);
+---
+>           msleep_interruptible(2000); // for delay
+1248a1248
+>            printk("vbus  set as on !!\n");   
+1255c1255
+< 
+---
+>           
+1256a1257
+>           printk("vbus set ready and sleep finished\n");
+1288d1288
+< 			    {
+1290,1293c1290
+< 			     }
+< 			    else {
+<           USB_driver_Flag_1=1;
+<           }
+---
+> 			    else USB_driver_Flag_1=1;
+1298a1296,1297
+> static u32 vBusTestCount=0; //Andrew Code
+> 
+1302,1304c1301,1304
+< 	do {
+< 		  if (mouse_flag==0)
+< 		  	break;		  
+---
+>          u32 TimeCount; //Andrew code
+> 	while (1) {
+> //		  if (mouse_flag==0)
+> //		  	break;		  
+1307c1307
+< 	    temp = readl (IO_ADDRESS(mouse_BASE_ADDRESS) | 0x30);
+---
+> //	    temp = readl (IO_ADDRESS(mouse_BASE_ADDRESS) | 0x30);
+1309,1310c1309,1338
+< 	    if (temp & 0x01) //status is connect
+< 	    {
+---
+> //	    if (temp & 0x01) //status is connect
+> //	    {
+> //Andrew code add
+> //=======================================================
+> 
+>     #if 1
+>           for( TimeCount=0; TimeCount < 10 ; TimeCount++ )
+>           {
+>             printk(".");
+>             msleep(100);
+>           }
+> 
+>           printk("\n vBusTestCount: %d \n", ++vBusTestCount );
+>           
+>           if( vBusTestCount  > 10 )
+>           {
+>               vBusTestCount=0;
+> //              printk(" vbus_off_on( ) function will be executed to see whether MOSUE will die or not \n" );
+> //              msleep( 1000 );
+> 	     msleep_interruptible(6000);
+>              printk("*****vBusTestCount > 10 and sleep 6000 *****\n");
+> //              msleep( 60000 );
+>                vbus_off_on( );
+>           }
+> 
+>     #else
+> 
+> //===================================================
+>                if (mouse_flag == 1)
+>                {
+1312c1340
+<                 mouse_thread_check_mouse_status();
+---
+>                     mouse_thread_check_mouse_status();
+1314,1317c1342,1348
+< 	    }else // status is disconnect
+< 	    {
+< 	    	mouse_flag = 0;
+< 	    }
+---
+>                 }
+> //Andrew code add endif
+>     #endif
+> //	    }else // status is disconnect
+> //	    {
+> //	    	mouse_flag = 0;
+> //	    }
+1319c1350,1351
+<       }while(mouse_flag);
+---
+> //      }while(mouse_flag);
+>        }
+1598,1600c1630,1646
+< 	if (ret < 0)
+< 		dev_err (hub->intfdev,
+< 			"%s failed (err = %d)\n", __FUNCTION__, ret);
+---
+> 	if (ret < 0){
+> 		dev_err (hub->intfdev,"%s failed (err = %d)\n", __FUNCTION__, ret);
+> 			printk("========= -32 entry ================\n");
+> 			u32 temp,BASE_ADDRESS;
+>       struct usb_hcd*hcd = container_of(hub->hdev->bus, struct usb_hcd,self);
+>                        if(hcd->irq == IRQ_USB0)
+>                           {
+> 	                   USB_driver_Flag=1;
+> //                          disable_irq(IRQ_USB0);
+>                           }
+>                        else
+>                           { 
+> 	                   USB_driver_Flag_1=1;
+> //                           disable_irq(IRQ_USB1);
+>                           }
+> 			
+> 			}
+2548d2593
+<           //msleep_interruptible(10000);
+2552a2598
+>               printk("Throw flag to application on Host 0\n");
+2554,2556c2600
+<               printk("throw flag to application on USB host 0\n");
+<               wake_up(&usb_wait_q);
+<               }
+---
+>              } 
+2558c2602,2603
+<               {
+---
+>              {
+>               printk("Throw flag to application on Host 1\n");
+2560,2562c2605
+<               printk("throw flag to application on USB host 1\n");
+<               wake_up(&usb_1_wait_q);
+<               }
+---
+>              }
+2937,2950d2979
+< #ifdef CONFIG_USB_MOUSE
+< //=====================================
+< //mouse LED bug
+< 		
+< 		if(mouse_flag == 1 && mouse_udev == udev)
+< 		{	
+< 			kmoused_task = kthread_run((void*)mouse_thread, NULL, "kmoused");
+< 		  if (kmoused_task < 0)
+< 		  {
+< 		   printk("############# kmoused_task fail ################ \n");
+< //		   return 0;
+< 		   }
+< //		   return 0;	
+< 		 }
+2952,2953d2980
+< //==========================================
+< #endif			
+3273a3301,3317
+> 
+> //#ifdef CONFIG_USB_MOUSE
+> //=====================================
+> //mouse LED bug
+> 		
+> //		if(mouse_flag == 1 && mouse_udev == udev)
+> //		{	
+> //			kmoused_task = kthread_run((void*)mouse_thread, NULL, "kmoused");
+> //		  if (kmoused_task < 0)
+> //		  {
+> //		   printk("############# kmoused_task fail ################ \n");
+> //		   }
+> //		 }
+> 			
+> //==========================================
+> //#endif
+> 
+3280a3325,3341
+> 	
+> #ifdef CONFIG_USB_MOUSE
+>  //=====================================
+>  //mouse LED bug
+>  if (kmoused_task==0)
+>  {
+>   kmoused_task = kthread_run((void*)mouse_thread, NULL, "kmoused");
+>         if (kmoused_task < 0)
+>          {
+>           printk("############# kmoused_task fail ################ \n");
+> //                 return 0;
+>           }
+>          }
+> //==========================================
+> #endif
+> 
+> 
+3285c3346
+< 
+---
+> 		
